@@ -1,11 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import RegisterForm from "./components/RegisterForm";
 
 function App() {
+    const initialFormData = {
+        name: '',
+        email: '',
+        pass: '',
+        agree: ''
+    };
 
+    let [formData, setFormData] = useState(initialFormData);
+
+    function inputChangeHandler (event) {
+        setFormData({...formData, [event.target.name]: event.target.value});
+    }
+
+    function checkboxChangeHandler (event) {
+        if (formData.agree) {
+            setFormData({...formData, 'agree': ''});
+        } else {
+            setFormData({...formData, 'agree': 'on'});
+        }
+    }
+
+    useEffect(() => {
+        console.log(formData);
+    }, [formData]);
 
     return (
         <div className="App">
@@ -17,7 +40,7 @@ function App() {
                 </div>
                 <div className="row row-cols-1">
                     <div className="col">
-                        <RegisterForm />
+                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} checkboxChangeHandler={checkboxChangeHandler} />
                     </div>
                 </div>
             </div>
