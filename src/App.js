@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-
+import axios from 'axios';
 import * as yup from 'yup';
+
+import './App.css';
 import RegisterForm from './components/RegisterForm';
 import registerFormSchema from './validation/registerFormSchema';
+
 
 function App() {
     const initialFormData = {
@@ -20,6 +21,8 @@ function App() {
         pass: '',
         agree: ''
     };
+
+    const SERVER_URL = 'https://reqres.in/api/users';
 
 
     let [formData, setFormData] = useState(initialFormData);
@@ -53,9 +56,21 @@ function App() {
         }
     }
 
+    function submitHandler (event) {
+        event.preventDefault();
+
+        axios.post(SERVER_URL, formData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log("Axios error occured");
+            });
+    }
+
 
     // if data in the form is ok, enable the submit button
-    
+
     useEffect(() => {
         registerFormSchema
             .isValid(formData).then(
@@ -79,7 +94,7 @@ function App() {
                 </div>
                 <div className="row row-cols-1">
                     <div className="col">
-                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} formErrors={formErrors} disabled={disabled} />
+                        <RegisterForm inputChangeHandler={inputChangeHandler} submitHandler={submitHandler} formData={formData} formErrors={formErrors} disabled={disabled} />
                     </div>
                 </div>
             </div>
