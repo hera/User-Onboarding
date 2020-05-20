@@ -21,8 +21,10 @@ function App() {
         agree: ''
     };
 
+
     let [formData, setFormData] = useState(initialFormData);
     let [formErrors, setFormErrors] = useState(initialFormErrors);
+    let [disabled, setDisabled] = useState(true);
 
 
     function inputChangeHandler (event) {
@@ -52,6 +54,21 @@ function App() {
     }
 
 
+    // if data in the form is ok, enable the submit button
+    
+    useEffect(() => {
+        registerFormSchema
+            .isValid(formData).then(
+                (valid) => {
+                    if (valid && formData.agree) {
+                        setDisabled(false);
+                    } else {
+                        setDisabled(true);
+                    }
+                })
+    }, [formData]);
+
+
     return (
         <div className="App">
             <div className="container">
@@ -62,7 +79,7 @@ function App() {
                 </div>
                 <div className="row row-cols-1">
                     <div className="col">
-                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} formErrors={formErrors} />
+                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} formErrors={formErrors} disabled={disabled} />
                     </div>
                 </div>
             </div>

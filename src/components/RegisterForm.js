@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input, UncontrolledAlert } from "reactstrap";
 
 function RegisterForm (props) {
-    let { inputChangeHandler, formErrors } = props;
+    let { inputChangeHandler, formErrors, disabled } = props;
 
     return (
         <Form>
@@ -39,7 +39,7 @@ function RegisterForm (props) {
                 </Label>
             </FormGroup>
             <br />
-            <Button color="primary">Register</Button>
+            <Button color="primary" disabled={disabled}>Register</Button>
         </Form>
     );
 }
