@@ -22,7 +22,8 @@ function RegisterForm (props) {
                     I agree with terms of service
                 </Label>
             </FormGroup>
-            <Button size="lg">Register</Button>
+            <br />
+            <Button size="lg" color="primary">Register</Button>
         </Form>
     );
 }
