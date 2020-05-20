@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-import RegisterForm from "./components/RegisterForm";
+import * as yup from 'yup';
+import RegisterForm from './components/RegisterForm';
+import registerFormSchema from './validation/registerFormSchema';
 
 function App() {
     const initialFormData = {
@@ -12,23 +14,43 @@ function App() {
         agree: ''
     };
 
+    const initialFormErrors = {
+        name: '',
+        email: '',
+        pass: '',
+        agree: ''
+    };
+
     let [formData, setFormData] = useState(initialFormData);
+    let [formErrors, setFormErrors] = useState(initialFormErrors);
+
 
     function inputChangeHandler (event) {
-        setFormData({...formData, [event.target.name]: event.target.value});
-    }
+        const field = event.target;
 
-    function checkboxChangeHandler (event) {
-        if (formData.agree) {
-            setFormData({...formData, 'agree': ''});
+        if (field.getAttribute('type') === 'checkbox') {
+            setFormData({...formData, [field.name]: field.checked});
         } else {
-            setFormData({...formData, 'agree': 'on'});
+            setFormData({...formData, [field.name]: field.value});
+
+            // 
+            yup.reach(registerFormSchema, field.name)
+            .validate(field.value)
+            .then(valid => {
+
+                // happy path: clear the error message for that field
+                setFormErrors({...formErrors, [field.name]: ''});
+
+            })
+            .catch(err => {
+
+                // oops: save the error message
+                setFormErrors({...formErrors, [field.name]: err.errors[0]});
+
+            });
         }
     }
 
-    useEffect(() => {
-        console.log(formData);
-    }, [formData]);
 
     return (
         <div className="App">
@@ -40,7 +62,7 @@ function App() {
                 </div>
                 <div className="row row-cols-1">
                     <div className="col">
-                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} checkboxChangeHandler={checkboxChangeHandler} />
+                        <RegisterForm inputChangeHandler={inputChangeHandler} formData={formData} formErrors={formErrors} />
                     </div>
                 </div>
             </div>
