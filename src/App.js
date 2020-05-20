@@ -8,7 +8,18 @@ import RegisterForm from "./components/RegisterForm";
 function App() {
     return (
         <div className="App">
-            test
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg">
+                        <h1>Create an account</h1>
+                    </div>
+                </div>
+                <div className="row row-cols-1">
+                    <div className="col">
+                        <RegisterForm />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
