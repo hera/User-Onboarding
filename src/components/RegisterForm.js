@@ -34,7 +34,7 @@ function RegisterForm (props) {
             </FormGroup>
             <FormGroup check>
                 <Label check>
-                    <Input type="checkbox" name="agree" onChange={inputChangeHandler} />{' '}
+                    <Input type="checkbox" name="agree" id="agree" onChange={inputChangeHandler} />{' '}
                     I agree with terms of service
                 </Label>
             </FormGroup>
