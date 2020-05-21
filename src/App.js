@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import './App.css';
 import RegisterForm from './components/RegisterForm';
+import Users from './components/Users';
 import registerFormSchema from './validation/registerFormSchema';
 
 
@@ -28,6 +29,7 @@ function App() {
     let [formData, setFormData] = useState(initialFormData);
     let [formErrors, setFormErrors] = useState(initialFormErrors);
     let [disabled, setDisabled] = useState(true);
+    let [usersData, setUsersData] = useState([]);
 
 
     function inputChangeHandler (event) {
@@ -61,7 +63,7 @@ function App() {
 
         axios.post(SERVER_URL, formData)
             .then((response) => {
-                console.log(response.data);
+                setUsersData(response.data);
             })
             .catch((error) => {
                 console.log("Axios error occured");
@@ -83,7 +85,6 @@ function App() {
                 })
     }, [formData]);
 
-
     return (
         <div className="App">
             <div className="container">
@@ -95,6 +96,11 @@ function App() {
                 <div className="row row-cols-1">
                     <div className="col">
                         <RegisterForm inputChangeHandler={inputChangeHandler} submitHandler={submitHandler} formData={formData} formErrors={formErrors} disabled={disabled} />
+                    </div>
+                </div>
+                <div className="row row-cols-1">
+                    <div className="col">
+                        <Users usersData={usersData} />
                     </div>
                 </div>
             </div>
