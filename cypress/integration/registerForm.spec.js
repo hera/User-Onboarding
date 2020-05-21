@@ -3,6 +3,13 @@ describe('Testing the register form', () => {
         cy.visit('http://localhost:3000/');
 
         cy.get('#name')
+          .type('Mi')
+          .wait(2000);
+        
+        cy.get('.alert-danger');
+
+        cy.get('#name')
+          .clear()
           .type('Michael Jackson');
 
         cy.get('#email')
